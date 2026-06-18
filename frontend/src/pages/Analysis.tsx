@@ -5,6 +5,7 @@ import type { ContractDetail } from "../types";
 import { ToneGauge } from "../components/ToneGauge";
 import { MetricsTable } from "../components/MetricsTable";
 import { ChunkProgress } from "../components/ChunkProgress";
+import { FollowUpBar } from "../components/FollowUpBar";
 import { severityColor, titleCase } from "../lib/finance";
 
 function Notice({ title, body }: { title: string; body?: string }) {
@@ -95,6 +96,8 @@ export function Analysis() {
           <ToneGauge tone={a.tone} />
         </aside>
       </div>
+
+      <FollowUpBar contractId={Number(id)} />
     </div>
   );
 }

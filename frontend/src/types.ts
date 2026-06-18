@@ -48,6 +48,11 @@ export interface ContractDetail {
   error: string | null; analysis: FinancialAnalysis | null; progress: Progress | null;
 }
 
+// --- Follow-up conversation (human-in-the-loop) ---
+export interface FollowUpMessage {
+  id: number; role: "user" | "assistant"; content: string; created_at: string;
+}
+
 // --- Comparison results ---
 export interface BenchmarkRow { company: string; values: Record<string, string | null>; }
 export interface Benchmark { metric_names: string[]; rows: BenchmarkRow[]; highlights: string[]; }

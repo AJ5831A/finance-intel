@@ -41,3 +41,21 @@ class GeminiClient:
                 last_err = e
                 time.sleep(0.5 * (2 ** attempt))
         raise RuntimeError(f"Gemini call failed after {self.max_retries} retries: {last_err}")
+
+    def generate_text(self, prompt: str, temperature: float = 0.3) -> str:
+        """Free-form (non-schema) generation, e.g. conversational follow-up answers.
+        Higher default temperature than extraction since answers are prose, not data."""
+        config = types.GenerateContentConfig(temperature=temperature)
+        last_err = None
+        for attempt in range(self.max_retries):
+            try:
+                resp = self._client.models.generate_content(
+                    model=self.model, contents=prompt, config=config)
+                text = getattr(resp, "text", None)
+                if text:
+                    return text
+                raise ValueError("Gemini returned no text")
+            except Exception as e:  # noqa: BLE001 - retry transient errors
+                last_err = e
+                time.sleep(0.5 * (2 ** attempt))
+        raise RuntimeError(f"Gemini call failed after {self.max_retries} retries: {last_err}")
