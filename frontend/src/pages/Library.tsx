@@ -45,12 +45,12 @@ export function Library() {
       <section className="border-b border-line py-14">
         <div className="eyebrow">Fundamental analysis, in seconds</div>
         <h1 className="mt-3 max-w-3xl font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
-          Read a filing the way an analyst would — without the hours.
+          Read a filing the way an analyst would, without the hours.
         </h1>
         <p className="mt-5 max-w-xl text-base leading-relaxed text-muted">
           Drop in a 10-K, 10-Q, earnings release, or call transcript. Ledger extracts the
           metrics, reads management's tone, tracks risk factors, and drafts the investment
-          memo — leaving you the judgment.
+          memo, leaving the judgment to you.
         </p>
 
         <div className="mt-8">
