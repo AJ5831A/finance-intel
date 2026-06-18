@@ -110,15 +110,15 @@ Browser (React)                    FastAPI                         Gemini · SQL
    pick prior+current ─ POST /compare/risk ► LLM diffs the two stored risk-factor sets
 ```
 
-The analysis stages run **sequentially inside the background task**, so a large 10-K takes a few minutes (each chunk is a real Gemini call); short earnings releases finish quickly. The UI keeps polling and updates live.
+The analysis stages run **sequentially inside the background task**, so a large 10-K takes a few minutes, since each chunk is a real Gemini call, while short earnings releases finish quickly. The UI keeps polling and updates live throughout.
 
 ---
 
 ## Prerequisites
 
-- **Python 3.13** — a virtualenv `legalvenv/` is already created at the repo root.
-- **Node 20** — for the React frontend.
-- **Google Gemini API key** — the free tier is sufficient for development.
+- **Python 3.13.** A virtualenv `legalvenv/` is already created at the repo root.
+- **Node 20.** Required for the React frontend.
+- **Google Gemini API key.** The free tier is sufficient for development.
 
 ## Setup
 
@@ -149,9 +149,9 @@ CORS is open, so the frontend works on whatever port Vite picks.
 ## Usage
 
 1. Open the frontend and go to **Filings**.
-2. **Analyse a filing** — upload a PDF/DOCX. You're taken straight to the dashboard, which shows the live multi-stage progress (and the chunk animation during structuring).
-3. When it completes: the **Dashboard** (metrics table, tone gauge, risk factors), plus the **Investment memo →** and **Document →** views.
-4. **Benchmark** tab — select ≥ 2 analysed filings for the metric comparison grid, or pick a prior + current filing to diff their risk factors.
+2. **Analyse a filing.** Upload a PDF or DOCX. You are taken straight to the dashboard, which shows the live multi-stage progress, including the chunk animation during structuring.
+3. **Review the results** when analysis completes: the **Dashboard** (metrics table, tone gauge, and risk factors), plus the **Investment memo** and **Document** views.
+4. **Benchmark.** On the Benchmark tab, select two or more analysed filings for the metric comparison grid, or pick a prior and a current filing to diff their risk factors.
 
 ## Testing
 
