@@ -18,7 +18,7 @@ Read a filing the way an analyst would, in seconds. Upload a 10-K, 10-Q, earning
 
 ## Architecture
 
-Document parsing feeds a single best-effort analysis pipeline; the result is stored as one JSON blob and rendered by the frontend. Cross-document features read those stored results.
+Document parsing feeds a single best-effort analysis pipeline. The result is stored as one JSON blob and rendered by the frontend, and cross-document features read those stored results.
 
 ```
             ┌──────────────── ingestion ────────────────┐
@@ -42,11 +42,11 @@ Document parsing feeds a single best-effort analysis pipeline; the result is sto
 
 **Key design points**
 
-- **Chunked map-reduce structuring.** A large filing cannot be structured in one LLM call (the JSON response truncates). `ingestion/structure.py` splits the text (`ingestion/chunking.py`), parses each chunk into ordered blocks (the map), merges and de-duplicates overlap in code, then makes **one bounded call over the headings** to synthesize a clean title + outline (the reduce). This is the stage that streams the live chunk-progress animation.
-- **Schema sanitizer.** Gemini's `response_schema` rejects JSON-Schema that Pydantic normally emits (`default` keys, `$ref`/`$defs` indirection, recursive schemas, `anyOf` null unions). `llm/schema.py:to_gemini_schema` rewrites any Pydantic model into a Gemini-safe schema; `llm/client.py` then parses the response back into the typed model. Every structured call goes through it.
-- **Best-effort stages.** Each pipeline stage is wrapped so one failure (a bad chunk, a flaky call) degrades gracefully instead of sinking the whole analysis.
-- **Ephemeral progress.** `pipeline/progress.py` is a thread-safe in-process store updated by the running background task and read by `GET /contracts/{id}`; it drives the frontend animation. (In-process by design — single-worker dev setup.)
-- **Resilient startup.** On boot, any row left `processing`/`uploaded` by a restart is marked `failed`, so a reload never leaves a stuck "zombie" analysis.
+- **Chunked map-reduce structuring.** A large filing cannot be structured in one LLM call, because the JSON response truncates against the output-token budget. `ingestion/structure.py` splits the text (`ingestion/chunking.py`), parses each chunk into ordered blocks (the map step), merges and de-duplicates the overlap in code, then makes one bounded call over the headings alone to synthesize a clean title and outline (the reduce step). This is the stage that streams the live chunk-progress animation.
+- **Schema sanitizer.** Gemini's `response_schema` rejects JSON Schema that Pydantic normally emits: `default` keys, `$ref` and `$defs` indirection, recursive schemas, and `anyOf` null unions. `llm/schema.py:to_gemini_schema` rewrites any Pydantic model into a Gemini-safe schema, and `llm/client.py` parses the response back into the typed model. Every structured call goes through it.
+- **Best-effort stages.** Each pipeline stage is wrapped so that one failure, such as a bad chunk or a flaky call, degrades gracefully instead of sinking the whole analysis.
+- **Ephemeral progress.** `pipeline/progress.py` is a thread-safe, in-process store that the running background task updates and `GET /contracts/{id}` reads, and it drives the frontend animation. It is in-process by design, matching the single-worker development setup.
+- **Resilient startup.** On boot, any row left in `processing` or `uploaded` by a restart is marked `failed`, so a reload never leaves a stuck "zombie" analysis.
 
 ### Backend modules
 
