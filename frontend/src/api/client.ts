@@ -29,6 +29,19 @@ export async function benchmark(contract_ids: number[], metric_names?: string[])
   });
   return r.json();
 }
+export async function getFollowUps(id: number) {
+  const r = await fetch(`${BASE}/contracts/${id}/followup`);
+  return r.json() as Promise<{ messages: import("../types").FollowUpMessage[] }>;
+}
+export async function sendFollowUp(id: number, question: string) {
+  const r = await fetch(`${BASE}/contracts/${id}/followup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question }),
+  });
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail ?? "Request failed");
+  return r.json() as Promise<{ messages: import("../types").FollowUpMessage[] }>;
+}
 export async function compareRisk(prior_id: number, current_id: number) {
   const r = await fetch(`${BASE}/compare/risk`, {
     method: "POST",

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getDocument } from "../api/client";
 import type { ContractDetail } from "../types";
+import { FollowUpBar } from "../components/FollowUpBar";
 
 function Column({ title, items, color }: { title: string; items: string[]; color: string }) {
   return (
@@ -85,6 +86,8 @@ export function Memo() {
             ))}
           </ol>
         </section>
+
+        <FollowUpBar contractId={Number(id)} />
       </div>
     </div>
   );

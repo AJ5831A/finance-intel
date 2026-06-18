@@ -105,3 +105,19 @@ about: who leads on each metric, notable gaps in growth/margins/leverage, and an
 Grid:
 {grid}
 """
+
+FOLLOWUP_PROMPT = """You are an equity analyst assistant answering a follow-up question about a
+filing you have already analysed. Use ONLY the analysis context below — do not introduce figures
+or facts not present in it. If the context does not contain the answer, say so plainly and point
+to where it would be found (which document section or filing). Be concise and specific; cite the
+metric, risk, or passage you are drawing on.
+
+ANALYSIS CONTEXT:
+{context}
+
+CONVERSATION SO FAR:
+{history}
+
+QUESTION:
+{question}
+"""

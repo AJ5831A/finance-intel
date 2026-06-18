@@ -1,8 +1,8 @@
 import os
 from fastapi import APIRouter, UploadFile, File, BackgroundTasks, Depends, HTTPException
-from sqlmodel import Session, select
+from sqlmodel import Session, select, delete
 from app.db.engine import get_session
-from app.db.models import Contract
+from app.db.models import Contract, FollowUpMessage
 from app.pipeline.runner import run_financial_analysis
 from app.pipeline.progress import set_progress, get_progress, clear_progress
 from app.config import settings
@@ -87,6 +87,8 @@ def delete_contract(contract_id: int, session: Session = Depends(get_session)):
     c = session.get(Contract, contract_id)
     if not c:
         raise HTTPException(404, "document not found")
+    # SQLite has no cascade by default; drop the contract's follow-up thread too.
+    session.exec(delete(FollowUpMessage).where(FollowUpMessage.contract_id == contract_id))
     session.delete(c); session.commit()
     clear_progress(contract_id)
     return {"id": contract_id, "deleted": True}

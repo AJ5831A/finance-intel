@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session, select
 from app.db.engine import init_db
 from app.db.models import Contract
-from app.api import contracts, compare
+from app.api import contracts, compare, followup
 
 
 def _reset_stale():
@@ -33,6 +33,7 @@ def create_app() -> FastAPI:
 
     app.include_router(contracts.router)
     app.include_router(compare.router)
+    app.include_router(followup.router)
     return app
 
 
