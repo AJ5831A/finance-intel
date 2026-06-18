@@ -1,10 +1,10 @@
-# Ledger — AI Financial Document Analyst
+# Ledger: AI Financial Document Analyst
 
-Read a filing the way an analyst would, in seconds. Upload a 10-K / 10-Q, an earnings release, or a call transcript and Ledger ingests and structures it, extracts the financial metrics with period-over-period comparison, reads management's tone, pulls and categorises risk factors, benchmarks companies against each other, and drafts an investment memo — leaving you the judgment.
+Read a filing the way an analyst would, in seconds. Upload a 10-K, 10-Q, earnings release, or call transcript, and Ledger ingests and structures it, extracts the financial metrics with period-over-period comparison, reads management's tone, pulls and categorises risk factors, benchmarks companies against one another, and drafts an investment memo. The judgment is left to you.
 
-**Stack.** Backend: FastAPI + Google Gemini (`google-genai`, structured output) + SQLite (SQLModel). Frontend: React / Vite / TypeScript / Tailwind. Parsing: pdfplumber (PDF) and python-docx (DOCX), with a Docling fallback for scanned PDFs.
+**Stack.** Backend: FastAPI, Google Gemini (`google-genai` with structured output), and SQLite (via SQLModel). Frontend: React, Vite, TypeScript, and Tailwind. Parsing: pdfplumber for PDF and python-docx for DOCX, with a Docling fallback for scanned PDFs.
 
-**Capabilities** (each maps to a graded success metric):
+**Capabilities.** Each capability below maps to a graded success metric:
 
 | Capability | What it does |
 |---|---|
@@ -12,7 +12,7 @@ Read a filing the way an analyst would, in seconds. Upload a 10-K / 10-Q, an ear
 | Management tone | Scores sentiment, confidence, and hedging; surfaces the most confident and most cautious passages |
 | Risk factors | Extracts and categorises disclosed risks; diffs two periods to flag **new** / **escalated** risks |
 | Competitor benchmarking | Side-by-side metric grid across companies, with comparative commentary |
-| Investment memo | Company overview, financial summary, bull case, bear case, key risks, questions — grounded in the extracted data |
+| Investment memo | Company overview, financial summary, bull case, bear case, key risks, and open questions, all grounded in the extracted data |
 
 ---
 
