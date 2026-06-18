@@ -77,13 +77,13 @@ frontend/src/
 
 | Method | Path | Purpose |
 |---|---|---|
-| `POST` | `/contracts` | Upload a filing (multipart) → returns id |
-| `POST` | `/contracts/{id}/analyze` | Kick off analysis (background task) |
-| `GET`  | `/contracts/{id}` | Status + live `progress` + `analysis` JSON |
-| `GET`  | `/contracts` | List filings (id, company, period, doc_type, status) |
+| `POST` | `/contracts` | Upload a filing (multipart) and return its id |
+| `POST` | `/contracts/{id}/analyze` | Start analysis as a background task |
+| `GET`  | `/contracts/{id}` | Return status, the live `progress`, and the `analysis` JSON |
+| `GET`  | `/contracts` | List filings with id, company, period, doc_type, and status |
 | `DELETE` | `/contracts/{id}` | Remove a filing |
-| `POST` | `/benchmark` | `{contract_ids[]}` → metric grid + highlights |
-| `POST` | `/compare/risk` | `{prior_id, current_id}` → risk-factor deltas |
+| `POST` | `/benchmark` | Given `{contract_ids[]}`, return the metric grid and highlights |
+| `POST` | `/compare/risk` | Given `{prior_id, current_id}`, return the risk-factor deltas |
 
 ---
 
