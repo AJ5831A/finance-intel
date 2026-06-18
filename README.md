@@ -163,7 +163,7 @@ cd backend && ../legalvenv/bin/pytest        # unit tests; Gemini is mocked, no 
 
 ## Deployment
 
-Ledger is a stateful, single-instance app (in-process progress + background tasks, SQLite, local uploads), so it deploys as **one backend process with a persistent disk** plus a static frontend. Docker artifacts (`backend/Dockerfile`, `frontend/Dockerfile`, `docker-compose.yml`) and a slim `backend/requirements-prod.txt` are included. Full instructions — single-host Docker, managed split (Vercel + Render/Fly), TLS, and the scaling constraints — are in **[DEPLOYMENT.md](DEPLOYMENT.md)**.
+Ledger is a stateful, single-instance app (in-process progress, background tasks, SQLite, and local uploads), so it deploys as **one backend process with a persistent disk** alongside a static frontend. Docker artifacts (`backend/Dockerfile`, `frontend/Dockerfile`, and `docker-compose.yml`) and a slim `backend/requirements-prod.txt` are included. Full instructions, covering single-host Docker, the managed split (Vercel with Render or Fly), TLS, and the scaling constraints, are in **[DEPLOYMENT.md](DEPLOYMENT.md)**.
 
 ```bash
 GEMINI_API_KEY=your-key VITE_API_BASE=http://localhost:8000 docker compose up -d --build
@@ -174,6 +174,6 @@ GEMINI_API_KEY=your-key VITE_API_BASE=http://localhost:8000 docker compose up -d
 
 ## Document parsing & the Docling fallback
 
-- **PDF** — pdfplumber extracts text page by page.
-- **DOCX** — python-docx extracts paragraph text.
-- **Scanned-PDF fallback** — if the text layer yields fewer than ~30 characters, the ingestion router retries with Docling (OCR + complex layouts). Docling is an optional heavy dependency; a clear error is raised if it isn't installed.
+- **PDF.** pdfplumber extracts text page by page.
+- **DOCX.** python-docx extracts paragraph text.
+- **Scanned-PDF fallback.** If the text layer yields fewer than roughly 30 characters, the ingestion router retries with Docling, which handles OCR and complex layouts. Docling is an optional heavy dependency, and a clear error is raised if it is not installed.
